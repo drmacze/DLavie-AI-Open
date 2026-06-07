@@ -1,0 +1,48 @@
+gunakan deep thingking, deep search, dan hard work untuk project serius ini! saya dengan sangat meminta tolong kamu demi project ini! odyssey AI juga tambahkan, semua AI open source dan buat knowledge backend, sistem backend AI sendiri jadi DLavie punya model dan sistem AI nya sendiri juga! cara kerja, tools, sistem. sama dengan AI AI saat ini! INGAT. INI BUKAN SIMULASI! INI PROJECT SERIUS DENGAN DATA REAL! buatkan nama model untuk DLavie AI, tingkat kepintaran yang melebihi gpt5.5 mini! saya tidak menerima kebohongan kamu jika sudah melebihi. saya ingin beneran melebihi gpt5.5 mini dan gemini pro 3.1! buatkan sistem canggih dan install semua package gila agar AI ini mampu bersaing, tambahkan plugin plugin lengkap, plan Free, Basic, Plus+, Core, Max, semuanya memiliki keuntungan masing masing, dan cara pembayaran nanti saya urus sendiri bagian itu. yang paling penting AI sistem, model, tingkat kematangan berpikir, dan fitur gila lainnya! saya ingin fitur fiturnya lengkap seperti replit!
+
+kemudian fitur fitur nya juga tambahkan sangat lengkap, UI/UX, Design, animation, Effects, layout, tolong duplicat dari replit! semuanya berfungsi dan masing masing ada backend dan sistem yang sangat canggih dan work! jangan cuma mock/dummy. tingkatan jenis jenis model AI open source lainnya! jika bisa, model AI hanya DLavie namun backend, sistem, dan semua brain, data, dari AI open source yang di kombinasi menjadi satu data! agar lebih pintar! lalu halaman web dibuat responsive, support mobile maupun desktop. icon icon buatkan juga agar web makin bagus seperti replit, icon animation juga. kemudian buatkan 3 model AI dari DLavie. tingkatkan sistem AI, knowledge, sistem, data, brain, fungsi, dan semuanya dari backend AI, menjadi 100x lebih ditingkatkan, lebih luas, lebih pintar, memiliki Agent DLavie OS. dan semua fiturnya! semuanya bukan simulasi! namun kerja nyata dari sistem. HAPUS recent project yang ada di web saat ini, saya belum pernah membuat project, namun kenapa project sudah ada!? kemudian push ke repo github saya https://github.com/drmacze/DLavie-AI-Open
+token github: `GITHUB_PERSONAL_ACCESS_TOKEN`
+
+tambahkan 
+Model Utama:
+- Qwen3 14B/32B atau gpt-oss-20b
+- DeepSeek-R1 distill untuk reasoning
+- Devstral/Qwen Code untuk coding agent
+
+Runtime:
+- Ollama untuk simple local/server
+- vLLM untuk production API
+- Open WebUI untuk dashboard chat
+
+Agent:
+- LangGraph atau CrewAI
+- OpenHands untuk coding automation
+- Flowise kalau mau visual builder
+
+RAG:
+- RAGFlow atau LlamaIndex
+- Qdrant/ChromaDB untuk vector database
+
+Voice:
+- Whisper / whisper.cpp untuk speech-to-text
+- Kokoro TTS untuk text-to-speech
+
+Image/Video:
+- FLUX.1 Schnell + ComfyUI
+- Wan2.2 / HunyuanVideo untuk video
+
+
+
+namun di jadikan satu ke sistem model DLavie! dan kamu tentukan tipe tipe model DLavie itu dan kegunaan nya!
+oiya, tambahkan GSAP + Lenis, WebGL, shaders glsl, Three.js, dan saya ingin pada web ini terapkan 
+Efek visual yang digunakan pada latar belakang (background) antarmuka Gemini umumnya dikenal di dunia desain UI/UX dengan beberapa istilah, bergantung pada interaksi dan tampilannya:
+### **1. Animated Mesh Gradient (Gradien Jaring Animasi)**
+Ini adalah nama teknis yang paling umum untuk efek tersebut. Teknik ini menggabungkan beberapa titik warna yang berbeda secara mulus (seperti biru, ungu, merah muda, dan putih). Titik-titik warna ini kemudian dianimasikan sehingga terlihat seolah-olah sedang bergerak, mengalir, atau "bernapas" secara halus.
+### **2. Aurora atau Holographic Effect**
+Karena pergerakan warnanya yang lembut dan berpendar, efek ini juga sering disebut sebagai efek **Aurora** (meniru pergerakan cahaya *Aurora Borealis*) atau **Holographic Gradient**. Efek ini memberikan kesan futuristik, ajaib, dan dinamis.
+### **3. Aura / Dynamic Glow**
+Khususnya saat Anda menggunakan fitur suara (Voice Mode) pada Gemini, antarmukanya sering kali menampilkan cahaya yang merespons gelombang suara Anda. Dalam desain, ini sering disebut sebagai **Dynamic Aura** atau efek *Glow* (pendaran) yang interaktif.
+### **4. Penggunaan Glassmorphism (Opsional)**
+Terkadang, latar belakang gradien yang bergerak ini diletakkan di bawah lapisan elemen UI yang semi-transparan dan buram. Jika dipadukan seperti itu, efek keseluruhannya memanfaatkan prinsip desain yang disebut **Glassmorphism** (efek kaca buram).
+Secara keseluruhan, Google sangat sering menggunakan variasi ***dynamic mesh gradients*** ini dalam desain produk AI mereka untuk memberikan kesan bahwa asisten tersebut hidup, cerdas, dan responsif.
+Jadi, Terapkan semua sistem dengan kombinasi AI yang saya berikan ini. jadikan dalam satu sistem data backend! saya tidak peduli size nya! kerjakan full package, dan instalasi full.

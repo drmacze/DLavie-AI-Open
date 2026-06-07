@@ -1,9 +1,8 @@
-import { useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Link } from "wouter";
 import { useListProjects, useCreateProject, getListProjectsQueryKey, getListRecentProjectsQueryKey } from "@workspace/api-client-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Folder, Plus, Search, Code2, Clock } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { FolderOpen, Plus, Search, Code2, Clock, Layers, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -11,6 +10,16 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import gsap from "gsap";
+
+const LANG_COLORS: Record<string, string> = {
+  typescript: "text-blue-400 bg-blue-400/10 border-blue-400/20",
+  javascript: "text-yellow-400 bg-yellow-400/10 border-yellow-400/20",
+  python: "text-green-400 bg-green-400/10 border-green-400/20",
+  rust: "text-orange-400 bg-orange-400/10 border-orange-400/20",
+  go: "text-cyan-400 bg-cyan-400/10 border-cyan-400/20",
+  default: "text-slate-400 bg-slate-400/10 border-slate-400/20",
+};
 
 export default function Projects() {
   const { data: projects, isLoading } = useListProjects();
@@ -18,6 +27,7 @@ export default function Projects() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const createProject = useCreateProject({
     mutation: {
@@ -33,6 +43,18 @@ export default function Projects() {
     }
   });
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".projects-header", { opacity: 0, y: -16, duration: 0.5, ease: "power2.out" });
+      const cards = containerRef.current?.querySelectorAll(".project-card");
+      if (cards && cards.length > 0) {
+        gsap.from(cards, { opacity: 0, y: 20, duration: 0.4, stagger: 0.06, delay: 0.15, ease: "power2.out" });
+      }
+    }, containerRef.current);
+    return () => ctx.revert();
+  }, [projects]);
+
   const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -45,70 +67,78 @@ export default function Projects() {
     });
   };
 
-  const filteredProjects = projects?.filter(p => 
-    p.name.toLowerCase().includes(search.toLowerCase()) || 
+  const filteredProjects = projects?.filter(p =>
+    p.name.toLowerCase().includes(search.toLowerCase()) ||
     (p.description && p.description.toLowerCase().includes(search.toLowerCase()))
   );
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col">
-      <header className="h-14 border-b flex items-center px-6 gap-4 shrink-0 bg-card">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity cursor-pointer">
-          <Code2 className="w-5 h-5 text-primary" />
-          <span className="font-bold font-mono tracking-tight">DLavie OS</span>
-        </Link>
-        <div className="h-4 w-px bg-border mx-2" />
-        <span className="text-sm font-medium text-muted-foreground">Projects</span>
-      </header>
-
-      <main className="flex-1 overflow-y-auto p-6 lg:p-10 max-w-6xl mx-auto w-full space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight">All Projects</h1>
-            <p className="text-sm text-muted-foreground">Manage your workspaces and applications.</p>
+    <div ref={containerRef} className="h-full overflow-y-auto p-6 lg:p-8">
+      <div className="max-w-5xl mx-auto">
+        <div className="projects-header flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-2xl font-bold text-white flex items-center gap-2.5">
+              <Layers className="w-6 h-6 text-violet-400" />
+              All Projects
+            </h1>
+            <p className="text-sm text-slate-500 mt-1">Manage your workspaces and applications.</p>
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <div className="relative flex-1 sm:w-64">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-600" />
               <Input
                 placeholder="Search projects..."
-                className="pl-9 font-mono text-sm"
+                className="pl-9 w-56 bg-white/[0.04] border-white/[0.06] text-slate-300 placeholder:text-slate-600 focus-visible:ring-violet-500/30 focus-visible:border-violet-500/40 text-sm h-9"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            
+
             <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
               <DialogTrigger asChild>
-                <Button className="font-mono shrink-0">
-                  <Plus className="w-4 h-4 mr-2" />
+                <Button className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white border-0 h-9 px-4 text-sm font-semibold shadow-lg shadow-violet-500/25">
+                  <Plus className="w-3.5 h-3.5 mr-1.5" />
                   New Project
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
+              <DialogContent className="sm:max-w-[440px] bg-[#0e0b28] border-white/[0.08] text-white">
                 <DialogHeader>
-                  <DialogTitle>Create New Project</DialogTitle>
-                  <DialogDescription>
-                    Set up a new intelligent workspace.
+                  <DialogTitle className="text-white flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-md bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
+                      <Zap className="w-3 h-3 text-white" />
+                    </div>
+                    Create New Project
+                  </DialogTitle>
+                  <DialogDescription className="text-slate-500">
+                    Set up a new AI-powered workspace.
                   </DialogDescription>
                 </DialogHeader>
-                <form onSubmit={handleCreate} className="space-y-4 pt-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Project Name</Label>
-                    <Input id="name" name="name" required placeholder="my-awesome-app" className="font-mono text-sm" />
+                <form onSubmit={handleCreate} className="space-y-4 pt-2">
+                  <div className="space-y-1.5">
+                    <Label htmlFor="name" className="text-slate-300 text-xs font-medium">Project Name</Label>
+                    <Input
+                      id="name" name="name" required
+                      placeholder="my-awesome-app"
+                      className="bg-white/[0.04] border-white/[0.08] text-white placeholder:text-slate-600 focus-visible:ring-violet-500/30 focus-visible:border-violet-500/40 font-mono text-sm"
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="description">Description (Optional)</Label>
-                    <Textarea id="description" name="description" placeholder="A brief description of your project." className="resize-none" />
+                  <div className="space-y-1.5">
+                    <Label htmlFor="description" className="text-slate-300 text-xs font-medium">Description <span className="text-slate-600">(optional)</span></Label>
+                    <Textarea
+                      id="description" name="description"
+                      placeholder="A brief description of your project."
+                      className="resize-none bg-white/[0.04] border-white/[0.08] text-white placeholder:text-slate-600 focus-visible:ring-violet-500/30 focus-visible:border-violet-500/40 text-sm"
+                      rows={2}
+                    />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="language">Primary Language</Label>
+                  <div className="space-y-1.5">
+                    <Label htmlFor="language" className="text-slate-300 text-xs font-medium">Primary Language</Label>
                     <Select name="language" defaultValue="typescript">
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-white/[0.04] border-white/[0.08] text-slate-300 focus:ring-violet-500/30">
                         <SelectValue placeholder="Select a language" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className="bg-[#0e0b28] border-white/[0.08] text-white">
                         <SelectItem value="typescript">TypeScript</SelectItem>
                         <SelectItem value="javascript">JavaScript</SelectItem>
                         <SelectItem value="python">Python</SelectItem>
@@ -117,10 +147,20 @@ export default function Projects() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <DialogFooter className="pt-4">
-                    <Button variant="outline" type="button" onClick={() => setIsCreateOpen(false)}>Cancel</Button>
-                    <Button type="submit" disabled={createProject.isPending}>
-                      {createProject.isPending ? "Creating..." : "Create Project"}
+                  <DialogFooter className="pt-2">
+                    <Button
+                      variant="outline" type="button"
+                      onClick={() => setIsCreateOpen(false)}
+                      className="border-white/[0.08] text-slate-400 hover:bg-white/[0.04]"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={createProject.isPending}
+                      className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white border-0"
+                    >
+                      {createProject.isPending ? "Creating…" : "Create Project"}
                     </Button>
                   </DialogFooter>
                 </form>
@@ -130,58 +170,67 @@ export default function Projects() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map(i => (
-              <Card key={i} className="animate-pulse">
-                <CardHeader className="h-24 bg-muted/50 rounded-t-xl" />
-                <CardContent className="h-16" />
-              </Card>
+              <div key={i} className="glass-card rounded-xl p-5 animate-pulse">
+                <div className="h-4 bg-white/[0.04] rounded mb-3 w-2/3" />
+                <div className="h-3 bg-white/[0.03] rounded mb-2 w-full" />
+                <div className="h-3 bg-white/[0.03] rounded w-4/5" />
+              </div>
             ))}
           </div>
         ) : filteredProjects && filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredProjects.map(project => (
-              <Card key={project.id} className="group hover:border-primary/50 transition-all flex flex-col h-full cursor-pointer relative overflow-hidden">
-                <Link href={`/editor/${project.id}`} className="absolute inset-0 z-10" />
-                <CardHeader className="pb-3 border-b bg-muted/10 shrink-0">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Folder className="w-4 h-4 text-muted-foreground shrink-0 group-hover:text-primary transition-colors" />
-                      <CardTitle className="text-base font-mono truncate">{project.name}</CardTitle>
-                    </div>
+              <Link
+                key={project.id}
+                href={`/editor/${project.id}`}
+                className="project-card glass-card rounded-xl p-5 block group hover:border-violet-500/20 hover:shadow-lg hover:shadow-violet-500/5 transition-all duration-200 cursor-pointer"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-violet-500/15 to-indigo-500/15 border border-white/[0.06] flex items-center justify-center group-hover:border-violet-500/20 transition-colors">
+                    <Code2 className="w-4 h-4 text-violet-400" />
                   </div>
-                </CardHeader>
-                <CardContent className="pt-4 flex flex-col flex-1">
-                  <CardDescription className="line-clamp-2 text-sm flex-1">
-                    {project.description || "No description provided."}
-                  </CardDescription>
-                  <div className="mt-6 flex items-center justify-between text-xs text-muted-foreground font-mono shrink-0">
-                    <span className="bg-secondary px-2 py-1 rounded-md">{project.language}</span>
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" />
-                      <span>{new Date(project.updatedAt).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  {project.language && (
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full border font-semibold ${LANG_COLORS[project.language] ?? LANG_COLORS.default}`}>
+                      {project.language}
+                    </span>
+                  )}
+                </div>
+                <p className="font-semibold text-white text-sm mb-1.5 group-hover:text-violet-200 transition-colors truncate">
+                  {project.name}
+                </p>
+                {project.description && (
+                  <p className="text-[12px] text-slate-600 line-clamp-2 mb-3 leading-relaxed">{project.description}</p>
+                )}
+                <div className="flex items-center gap-1.5 text-[11px] text-slate-700 mt-auto pt-2 border-t border-white/[0.04]">
+                  <Clock className="w-3 h-3" />
+                  <span>{new Date(project.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</span>
+                </div>
+              </Link>
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-24 text-center border rounded-xl bg-card border-dashed">
-            <Folder className="w-10 h-10 text-muted-foreground mb-4 opacity-50" />
-            <h3 className="text-lg font-semibold mb-1">No projects found</h3>
-            <p className="text-muted-foreground text-sm max-w-sm mb-6">
-              {search ? "No projects match your search criteria." : "You haven't created any projects yet."}
+          <div className="glass-card rounded-xl p-16 text-center border-dashed">
+            <FolderOpen className="w-12 h-12 text-slate-700 mx-auto mb-4" />
+            <h3 className="text-base font-semibold text-slate-400 mb-1">
+              {search ? "No matching projects" : "No projects yet"}
+            </h3>
+            <p className="text-slate-600 text-sm max-w-xs mx-auto mb-6">
+              {search ? "Try a different search term." : "Create your first AI-powered workspace to get started."}
             </p>
             {!search && (
-              <Button onClick={() => setIsCreateOpen(true)} className="font-mono">
+              <Button
+                onClick={() => setIsCreateOpen(true)}
+                className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white border-0"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Create Project
               </Button>
             )}
           </div>
         )}
-      </main>
+      </div>
     </div>
   );
 }

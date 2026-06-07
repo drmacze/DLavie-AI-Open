@@ -70,6 +70,8 @@ async function buildAll() {
       "node-llama-cpp",
       "@node-llama-cpp/*",
       "@reflink/*",
+      "@octokit/*",
+      "octokit",
       "@parcel/watcher",
       "@sentry/profiling-node",
       "@tree-sitter/*",

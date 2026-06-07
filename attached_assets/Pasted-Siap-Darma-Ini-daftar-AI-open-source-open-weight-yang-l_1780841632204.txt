@@ -1,0 +1,208 @@
+Siap, Darma. Ini daftar AI open-source / open-weight yang lengkap dan praktis untuk coding, bot WA, website, agent, RAG, gambar, video, suara, dan deployment.
+
+Catatan penting: di dunia AI, istilah “open-source” sering bercampur dengan open-weight. Open-weight artinya bobot model bisa diunduh/dijalankan sendiri, tapi belum tentu dataset/training code dibuka penuh. OSI mendefinisikan Open Source AI sebagai sistem yang memberi kebebasan untuk memakai, mempelajari, memodifikasi, dan membagikan sistem/model/parameter. Jadi sebelum dipakai komersial, cek lisensi tiap model.  
+
+Rekomendasi Paling Berguna
+
+Kebutuhan	AI / Tool yang cocok	Keterangan
+Chatbot AI lokal	Qwen3, Mistral, DeepSeek-R1, gpt-oss	Cocok untuk assistant, bot, reasoning, coding. Qwen3 menyediakan model open-weight dense/MoE dan beberapa varian Apache 2.0; gpt-oss dari OpenAI tersedia open-weight Apache 2.0.  
+Coding agent	OpenHands, Cline, Aider, Tabby, Qwen Code, Devstral	Untuk edit repo, terminal, debugging, PR, dan automation coding. OpenHands dibuat untuk agent software developer yang bisa menulis kode, memakai terminal, dan browser.  
+Bot WA AI / Dlavie Engine	Qwen3 + LangChain/LangGraph + RAGFlow/LlamaIndex + Ollama/vLLM	Stack ini bagus untuk bot yang punya memory, dokumen, plugin, tool command, GitHub integration, dan knowledge base. LangChain menyediakan framework open-source untuk agent/LLM app; RAGFlow fokus RAG + agent dengan citation.  
+RAG / AI baca dokumen	LlamaIndex, Haystack, RAGFlow, LangChain	Cocok untuk AI yang bisa baca PDF, dokumen, repo, FAQ, database, dan menjawab dengan sumber. Haystack adalah framework open-source Apache 2.0 untuk LLM app production-ready.  
+AI gambar	FLUX.1 Schnell, Stable Diffusion, SDXL, ComfyUI	FLUX.1 Schnell Apache 2.0 dan bisa digunakan personal, scientific, commercial; Stable Diffusion adalah model text-to-image populer.  
+AI video	Wan2.1/Wan2.2, HunyuanVideo, LTX-Video, Open-Sora	Untuk text-to-video dan image-to-video. Wan2.2 mendukung 720p 24fps dan bisa jalan di GPU consumer seperti RTX 4090; HunyuanVideo adalah open-source video foundation model.  
+Speech-to-text	Whisper, whisper.cpp, Qwen3-ASR	Whisper open-source untuk transkripsi multilingual; whisper.cpp cocok untuk inference ringan/local.  
+Text-to-speech	Kokoro TTS, Coqui TTS, Piper TTS, Qwen3-TTS	Kokoro TTS 82M open-weight Apache dan ringan untuk chatbot suara.  
+Jalankan model lokal/server	Ollama, llama.cpp, vLLM, Open WebUI	Ollama mudah untuk menjalankan open model; llama.cpp fokus inference ringan di banyak hardware; vLLM cocok untuk serving cepat/production.  
+
+⸻
+
+1. Model LLM Open-Source / Open-Weight
+
+Qwen3 / Qwen3-VL / Qwen Code
+
+Bagus untuk chatbot, coding, reasoning, multilingual, vision, agent. Qwen3 membuka bobot untuk model dense dan Mixture-of-Experts, dan beberapa model Qwen3 dirilis di bawah Apache 2.0.  
+
+Cocok untuk:
+
+* Bot WA AI.
+* Assistant website.
+* Coding agent.
+* Bahasa Indonesia + English.
+* Multimodal: teks, gambar, dokumen.
+
+DeepSeek-R1
+
+Kuat untuk reasoning, matematika, problem solving, debugging, dan coding. Paper DeepSeek menyebut R1 dan model distill-nya dibuka untuk komunitas, termasuk varian 1.5B sampai 70B.  
+
+Cocok untuk:
+
+* Logic berat.
+* Debugging.
+* AI planner.
+* Agent yang butuh reasoning.
+
+Mistral / Devstral
+
+Mistral punya beberapa model terbuka, termasuk Devstral untuk autonomous software development dan Mistral Small 4 Apache 2.0. Devstral dirilis untuk komunitas agar bisa dibangun, dikustomisasi, dan mempercepat software development.  
+
+Cocok untuk:
+
+* Coding.
+* Agent developer.
+* Bot teknis.
+* Deployment enterprise/self-host.
+
+OpenAI gpt-oss
+
+Ini bukan ChatGPT tertutup, tapi model open-weight dari OpenAI. Bobot gpt-oss bisa diunduh dan digunakan di bawah Apache 2.0; OpenAI menyebutnya open model/open-weight, bukan “full open-source” dalam arti semua komponen training dibuka.  
+
+Cocok untuk:
+
+* Reasoning.
+* Local/specialized use case.
+* Fine-tuning.
+* Self-hosted assistant.
+
+Meta Llama
+
+Llama 3.1 membawa konteks 128K dan Llama 3.2 menyediakan model kecil 1B/3B untuk edge/mobile use case. Namun, lisensinya bukan selalu “open-source murni” menurut definisi OSI karena ada ketentuan lisensi khusus.  
+
+Cocok untuk:
+
+* Local AI.
+* Bot ringan.
+* Summarization.
+* Edge/mobile experiments.
+
+⸻
+
+2. AI Coding Assistant / Agent Coding
+
+Tool	Kegunaan
+OpenHands	AI software engineer open-source: bisa menulis kode, menjalankan terminal, browsing, dan bekerja di sandbox.  
+Cline	Coding agent open-source untuk VS Code/terminal/SDK, mendukung MCP dan workflow agentic.  
+Aider	AI pair programmer di terminal, bagus untuk edit repo berbasis Git.  
+Tabby	Self-hosted AI coding assistant, alternatif open-source/on-prem untuk GitHub Copilot.  
+Qwen Code	Coding agent open-source di terminal dari Qwen, lisensi Apache 2.0.  
+Continue	AI checks/agent untuk pull request dan workflow repo.  
+Devstral	Model coding agent dari Mistral, cocok untuk autonomous software development.  
+
+Untuk kamu yang pakai HP: paling realistis pakai Replit/VPS + OpenHands/Cline/Tabby/Aider via terminal cloud, bukan full local di HP.
+
+⸻
+
+3. AI Agent Framework
+
+Framework	Cocok untuk
+LangChain	Build chatbot, agent, tool calling, workflow LLM.  
+LangGraph	Agent kompleks dengan alur graph/state machine.
+CrewAI	Multi-agent workflow: researcher, coder, reviewer, executor. CrewAI menyebut dirinya framework open-source untuk autonomous AI agents dan workflows.  
+AutoGen	Multi-agent conversation framework dari Microsoft; paper AutoGen menjelaskan agent yang bisa berkolaborasi dengan tools dan human input.  
+OpenHands SDK	Agent developer/coding dengan sandbox, terminal, browser.  
+Flowise	Drag-and-drop builder untuk LLM app, chatbot, RAG, agent.  
+
+⸻
+
+4. RAG / Knowledge Base AI
+
+Ini penting kalau kamu ingin AI yang bisa baca file, repo GitHub, PDF, database, dokumentasi website, lalu menjawab dari sumber.
+
+Tool	Keterangan
+RAGFlow	RAG engine open-source dengan document understanding dan citation-backed Q&A.  
+LlamaIndex	Data framework untuk menghubungkan private/domain data ke LLM, cocok untuk RAG.  
+Haystack	Framework open-source Apache 2.0 untuk production-ready LLM app, RAG, semantic search, agent workflow.  
+LangChain	Cocok untuk RAG + tool calling + agent.  
+ChromaDB / Qdrant / Weaviate / Milvus	Vector database untuk memory/search dokumen.
+
+⸻
+
+5. AI Gambar / Image Generation
+
+Model / Tool	Keterangan
+FLUX.1 Schnell	Image model cepat, Apache 2.0, bisa untuk personal/scientific/commercial.  
+Stable Diffusion / SDXL	Ekosistem besar untuk text-to-image, LoRA, ControlNet, style training.  
+Stable Diffusion 3.5	Open release dari Stability AI dengan Community License; cek lisensi sebelum komersial.  
+ComfyUI	Node-based workflow untuk image/video AI.
+AUTOMATIC1111	UI populer Stable Diffusion.
+InvokeAI	UI image generation yang lebih rapi untuk production/creative workflow.
+
+⸻
+
+6. AI Video
+
+Model / Tool	Keterangan
+Wan2.1 / Wan2.2	Open suite video foundation model; Wan2.2 mendukung text-to-video dan image-to-video 720p 24fps.  
+HunyuanVideo	Open-source video foundation model dari Tencent, performa diklaim kompetitif dengan closed-source model.  
+LTX-Video	Model video generation real-time/high-resolution dari Lightricks.  
+Open-Sora	Proyek video generation open-source; Open-Sora 2.0 ditujukan sebagai commercial-level video model dengan resource terbuka.  
+Wan2GP	Tool ringan untuk menjalankan Wan/Hunyuan/LTX/Flux bagi GPU terbatas.  
+
+⸻
+
+7. AI Voice / Audio
+
+Kebutuhan	Rekomendasi
+Speech-to-text	Whisper, whisper.cpp, Qwen3-ASR
+Text-to-speech	Kokoro TTS, Coqui TTS, Piper TTS, Qwen3-TTS
+Voice chatbot	Whisper + Kokoro + Qwen/Mistral/DeepSeek
+Transkripsi ringan	whisper.cpp
+Voice cloning / TTS lebih advance	Coqui TTS / XTTS, tapi cek lisensi model sebelum komersial
+
+Whisper dirilis sebagai open-source ASR dan dilatih pada 680.000 jam data multilingual/multitask; repository Whisper menyebut code dan model weights dirilis di bawah MIT license.   Kokoro adalah TTS open-weight 82M dengan Apache-licensed weights, cocok untuk production maupun personal project.  
+
+⸻
+
+8. Local Runtime / Deployment AI
+
+Tool	Fungsi
+Ollama	Cara paling mudah menjalankan model lokal/open model.  
+llama.cpp	Inference LLM ringan di banyak hardware, lokal/cloud.  
+vLLM	Serving LLM cepat untuk production/API.  
+Open WebUI	UI web untuk local AI/chatbot multi-model.
+TGI — Text Generation Inference	Serving model Hugging Face.
+LiteLLM	Proxy API agar banyak model bisa dipakai dengan format OpenAI-compatible.
+
+⸻
+
+Stack Terbaik untuk Project Kamu
+
+Untuk Dlavie Engine / bot WA / website AI, stack paling masuk akal:
+
+Model Utama:
+- Qwen3 14B/32B atau gpt-oss-20b
+- DeepSeek-R1 distill untuk reasoning
+- Devstral/Qwen Code untuk coding agent
+Runtime:
+- Ollama untuk simple local/server
+- vLLM untuk production API
+- Open WebUI untuk dashboard chat
+Agent:
+- LangGraph atau CrewAI
+- OpenHands untuk coding automation
+- Flowise kalau mau visual builder
+RAG:
+- RAGFlow atau LlamaIndex
+- Qdrant/ChromaDB untuk vector database
+Voice:
+- Whisper / whisper.cpp untuk speech-to-text
+- Kokoro TTS untuk text-to-speech
+Image/Video:
+- FLUX.1 Schnell + ComfyUI
+- Wan2.2 / HunyuanVideo untuk video
+
+Pilihan paling saya sarankan
+
+Untuk bot WA AI:
+Qwen3 + Ollama/vLLM + LangGraph + RAGFlow + Qdrant + Whisper + Kokoro
+
+Untuk coding via HP/Replit/VPS:
+OpenHands + Aider/Cline + Qwen Code + Devstral/Qwen3-Coder
+
+Untuk AI visual:
+FLUX.1 Schnell + ComfyUI + Wan2.2
+
+Untuk AI knowledge base website:
+LlamaIndex/RAGFlow + Qwen3 + vector database
+
+Terakhir, jangan expose dashboard seperti Flowise/Open WebUI/RAGFlow langsung ke publik tanpa auth. Beberapa platform AI open-source pernah punya isu security jika instance dibiarkan terbuka; jadi pakai login, reverse proxy, firewall, dan environment secret yang aman.  

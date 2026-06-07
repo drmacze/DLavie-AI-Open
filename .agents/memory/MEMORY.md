@@ -1,0 +1,2 @@
+- [DLavie OS stack](dlavie-os-stack.md) — key architecture decisions: WebGL fallback, GSAP querySelector guard, wouter Link nesting
+- [node-llama-cpp setup](node-llama-cpp.md) — externalized in build.mjs; model at ~/.dlavie-models/; v3.18.1
