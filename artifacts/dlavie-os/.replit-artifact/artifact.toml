@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "DLavie OS"
+version = "1.0.0"
+id = "artifacts/dlavie-os"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20972
+
+[services.development]
+run = "pnpm --filter @workspace/dlavie-os run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dlavie-os", "run", "build" ]
+publicDir = "artifacts/dlavie-os/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20972"
+BASE_PATH = "/"
