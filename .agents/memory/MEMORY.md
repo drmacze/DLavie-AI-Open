@@ -1,2 +1,3 @@
 - [DLavie OS stack](dlavie-os-stack.md) — key architecture decisions: WebGL fallback, GSAP querySelector guard, wouter Link nesting
 - [node-llama-cpp setup](node-llama-cpp.md) — externalized in build.mjs; model at ~/.dlavie-models/; v3.18.1
+- [DLavie OS v2 platform](dlavie-os-v2.md) — Supabase auth, multi-model AI, VoltAgent, Midtrans, PWA, Capacitor, Vercel deploy

@@ -1,0 +1,22 @@
+{
+  "name": "DLavie OS",
+  "short_name": "DLavie",
+  "description": "AI-powered coding intelligence IDE",
+  "theme_color": "#0a0e1a",
+  "background_color": "#080c14",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "developer", "utilities"],
+  "lang": "en",
+  "dir": "ltr"
+}

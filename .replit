@@ -30,3 +30,10 @@ externalPort = 80
 [[ports]]
 localPort = 20972
 externalPort = 3000
+
+[userenv]
+
+[userenv.shared]
+VITE_SUPABASE_URL = "https://kqrcglcwkidyrieruxnx.supabase.co"
+VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxcmNnbGN3a2lkeXJpZXJ1eG54Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA4Mjg1NTEsImV4cCI6MjA5NjQwNDU1MX0.LbhRVIJ3G1RByGajhGUE9FxeS6W7_aQbdF9MAJDpOl0"
+VITE_API_BASE_URL = ""
