@@ -50,17 +50,35 @@ export default function LoginPage() {
   const callbackUrl = `${window.location.origin}${BASE}/auth/callback`;
 
   const handleGithub = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "github",
-      options: { redirectTo: callbackUrl },
-    });
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "github",
+        options: { redirectTo: callbackUrl },
+      });
+      if (error) {
+        console.error("GitHub OAuth error:", error);
+        setError(error.message);
+      }
+    } catch (err: any) {
+      console.error("GitHub OAuth exception:", err);
+      setError(err.message || "GitHub login failed");
+    }
   };
 
   const handleGoogle = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: callbackUrl },
-    });
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: callbackUrl },
+      });
+      if (error) {
+        console.error("Google OAuth error:", error);
+        setError(error.message);
+      }
+    } catch (err: any) {
+      console.error("Google OAuth exception:", err);
+      setError(err.message || "Google login failed");
+    }
   };
 
   return (
