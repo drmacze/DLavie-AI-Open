@@ -11,7 +11,7 @@ export type ModelInfo = {
   provider: ModelProvider;
   description: string;
   contextWindow: number;
-  plan: "free" | "lite" | "plus" | "max";
+  plan: "free" | "lite" | "plus" | "max" | "developer";
   available: boolean;
 };
 
@@ -68,7 +68,8 @@ export function getModel(modelId: string): ModelInfo | undefined {
 }
 
 export function getModelsForPlan(plan: string): ModelInfo[] {
-  const order: Record<string, number> = { free: 0, lite: 1, plus: 2, max: 3 };
+  const order: Record<string, number> = { free: 0, lite: 1, plus: 2, max: 3, developer: 99 };
   const userLevel = order[plan] ?? 0;
+  if (userLevel >= 99) return MODEL_REGISTRY.filter((m) => m.available);
   return MODEL_REGISTRY.filter((m) => (order[m.plan] ?? 0) <= userLevel);
 }

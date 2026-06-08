@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { supabase } from "../lib/supabase.js";
+import { supabase, isDeveloper, DEVELOPER_EMAIL } from "../lib/supabase.js";
 
 export interface AuthRequest extends Request {
   userId?: string;
   userPlan?: string;
   userProfile?: any;
+  isDev?: boolean;
 }
 
 export async function authMiddleware(req: AuthRequest, res: Response, next: NextFunction) {
@@ -12,6 +13,7 @@ export async function authMiddleware(req: AuthRequest, res: Response, next: Next
   if (!authHeader?.startsWith("Bearer ")) {
     req.userId = undefined;
     req.userPlan = "free";
+    req.isDev = false;
     return next();
   }
 
@@ -21,6 +23,7 @@ export async function authMiddleware(req: AuthRequest, res: Response, next: Next
     if (error || !user) {
       req.userId = undefined;
       req.userPlan = "free";
+      req.isDev = false;
       return next();
     }
 
@@ -30,13 +33,16 @@ export async function authMiddleware(req: AuthRequest, res: Response, next: Next
       .eq("id", user.id)
       .single();
 
+    const devFlag = isDeveloper(profile);
     req.userId = user.id;
-    req.userPlan = profile?.plan ?? "free";
+    req.userPlan = devFlag ? "developer" : (profile?.plan ?? "free");
     req.userProfile = profile;
+    req.isDev = devFlag;
     next();
   } catch {
     req.userId = undefined;
     req.userPlan = "free";
+    req.isDev = false;
     next();
   }
 }

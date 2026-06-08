@@ -7,7 +7,7 @@ import { getRelevantKnowledge } from "./knowledge.js";
 import { MODEL_REGISTRY } from "../lib/ai-models.js";
 import { runAgent } from "../lib/voltagent.js";
 import { authMiddleware, type AuthRequest } from "../middlewares/auth.js";
-import { checkUsageLimit, logUsage } from "../lib/supabase.js";
+import { checkUsageLimit, logUsage, isDeveloper } from "../lib/supabase.js";
 
 const router = Router();
 
@@ -62,8 +62,8 @@ router.post("/ai/chat", authMiddleware, async (req: AuthRequest, res) => {
     const projectId = body.projectId || 0;
     const modelId = (body as any).modelId ?? "local-qwen-1.5b";
 
-    // Usage limit check for authenticated users
-    if (req.userId) {
+    // Usage limit check for authenticated users (skip for developers)
+    if (req.userId && !req.isDev) {
       const limitCheck = await checkUsageLimit(req.userId, req.userPlan ?? "free");
       if (!limitCheck.allowed) {
         return res.status(429).json({ error: limitCheck.reason });
@@ -119,7 +119,7 @@ router.post("/ai/agent", authMiddleware, async (req: AuthRequest, res) => {
     const { message, projectId, files, modelId = "local-qwen-1.5b" } = req.body;
     if (!message) return res.status(400).json({ error: "message required" });
 
-    if (req.userId) {
+    if (req.userId && !req.isDev) {
       const limitCheck = await checkUsageLimit(req.userId, req.userPlan ?? "free");
       if (!limitCheck.allowed) return res.status(429).json({ error: limitCheck.reason });
     }

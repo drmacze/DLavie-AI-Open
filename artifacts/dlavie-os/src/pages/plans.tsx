@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Check, Zap, Crown, Sparkles, Star, Loader2, Lock } from "lucide-react";
+import { Check, Zap, Crown, Sparkles, Star, Loader2, Lock, Code2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { isDeveloperPlan } from "@/lib/supabase";
 
 const PLANS = [
   {
@@ -56,6 +57,20 @@ const PLANS = [
     borderColor: "border-amber-500/30",
     glowColor: "shadow-amber-500/10",
     features: ["Unlimited requests", "All models + priority", "Custom knowledge", "API access", "White-label", "Priority support"],
+    notIncluded: [],
+  },
+  {
+    id: "developer",
+    name: "Developer",
+    price_idr: 0,
+    period: "",
+    icon: Code2,
+    color: "from-emerald-500 to-teal-500",
+    badgeColor: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
+    borderColor: "border-emerald-500/30",
+    glowColor: "shadow-emerald-500/15",
+    developer: true,
+    features: ["Unlimited requests", "All models unlocked", "Unlimited projects", "Full Agent access", "GitHub sync", "Knowledge base", "API access", "Dev badge"],
     notIncluded: [],
   },
 ];
@@ -163,12 +178,21 @@ export default function PlansPage() {
                 </ul>
 
                 {isCurrent ? (
-                  <div className="w-full py-2 rounded-xl bg-white/[0.05] border border-white/[0.08] text-center text-xs text-slate-400 font-medium">
-                    Current Plan
+                  <div className={cn(
+                    "w-full py-2 rounded-xl text-center text-xs font-medium",
+                    plan.developer
+                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
+                      : "bg-white/[0.05] border border-white/[0.08] text-slate-400"
+                  )}>
+                    {plan.developer ? "Active Developer" : "Current Plan"}
                   </div>
                 ) : plan.id === "free" ? (
                   <div className="w-full py-2 rounded-xl bg-white/[0.03] text-center text-xs text-slate-600">
                     Default
+                  </div>
+                ) : plan.developer ? (
+                  <div className="w-full py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-center text-xs text-emerald-400 font-medium">
+                    Developer Only
                   </div>
                 ) : (
                   <Button

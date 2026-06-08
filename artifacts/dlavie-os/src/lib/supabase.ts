@@ -19,7 +19,7 @@ export const supabase = createClient(
   }
 );
 
-export type Plan = "free" | "lite" | "plus" | "max";
+export type Plan = "free" | "lite" | "plus" | "max" | "developer";
 
 export type UserProfile = {
   id: string;
@@ -29,11 +29,25 @@ export type UserProfile = {
   plan: Plan;
   usage_tokens: number;
   usage_requests: number;
+  role?: "user" | "developer";
 };
 
-export const PLAN_DISPLAY = {
-  free:  { label: "Free",   color: "text-slate-400",  badge: "bg-slate-500/20 text-slate-400",  limit: "20 req/day" },
-  lite:  { label: "Lite",   color: "text-blue-400",   badge: "bg-blue-500/20 text-blue-400",    limit: "100 req/day" },
-  plus:  { label: "Plus+",  color: "text-violet-400", badge: "bg-violet-500/20 text-violet-400", limit: "500 req/day" },
-  max:   { label: "Max",    color: "text-amber-400",  badge: "bg-amber-500/20 text-amber-400",   limit: "Unlimited" },
+export const DEVELOPER_EMAIL = "dlaviecom@gmail.com";
+
+export const isDeveloper = (profile: UserProfile | null): boolean => {
+  if (!profile) return false;
+  if (profile.role === "developer") return true;
+  if (profile.email === DEVELOPER_EMAIL) return true;
+  return false;
+};
+
+export const DEVELOPER_PLAN: Plan = "developer";
+export const isDeveloperPlan = (plan: Plan): boolean => plan === "developer";
+
+export const PLAN_DISPLAY: Record<Plan | "developer", { label: string; color: string; badge: string; limit: string }> = {
+  free:       { label: "Free",       color: "text-slate-400",  badge: "bg-slate-500/20 text-slate-400",  limit: "20 req/day" },
+  lite:       { label: "Lite",       color: "text-blue-400",   badge: "bg-blue-500/20 text-blue-400",    limit: "100 req/day" },
+  plus:       { label: "Plus+",      color: "text-violet-400", badge: "bg-violet-500/20 text-violet-400", limit: "500 req/day" },
+  max:        { label: "Max",        color: "text-amber-400",  badge: "bg-amber-500/20 text-amber-400",   limit: "Unlimited" },
+  developer:  { label: "Developer",  color: "text-emerald-400", badge: "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30", limit: "Unlimited" },
 };

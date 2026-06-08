@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Settings, Cpu, Brain, Github, Database, Zap, Check, AlertCircle, Shield, Key, ExternalLink, Copy } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { PLAN_DISPLAY } from "@/lib/supabase";
+import { PLAN_DISPLAY, isDeveloperPlan } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
 const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
@@ -65,6 +65,9 @@ export default function SettingsPage() {
                 <div className={cn("px-2.5 py-1 rounded-full border text-[10px] font-bold", planDisplay.badge)}>
                   {planDisplay.label}
                 </div>
+                {isDeveloperPlan(plan as any) && (
+                  <span className="text-[8px] text-emerald-400 font-bold tracking-wider uppercase">Dev</span>
+                )}
               </div>
             </Section>
           )}

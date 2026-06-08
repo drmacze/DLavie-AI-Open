@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
-import { PLAN_DISPLAY } from "@/lib/supabase";
+import { PLAN_DISPLAY, isDeveloperPlan } from "@/lib/supabase";
 
 const navItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/" },
@@ -27,7 +27,8 @@ const bottomItems = [
 export function Sidebar() {
   const { user, profile, signOut } = useAuth();
   const plan = profile?.plan ?? "free";
-  const planDisplay = PLAN_DISPLAY[plan as keyof typeof PLAN_DISPLAY] ?? PLAN_DISPLAY.free;
+  const planDisplay = PLAN_DISPLAY[plan] ?? PLAN_DISPLAY.free;
+  const isDev = isDeveloperPlan(plan);
 
   return (
     <aside className="flex flex-col h-full w-[220px] flex-shrink-0 border-r border-white/[0.06] bg-[#0a0e1a]/90 backdrop-blur-xl relative">
@@ -99,6 +100,9 @@ export function Sidebar() {
                 <span className={cn("text-[9px] font-semibold", planDisplay.color)}>
                   {planDisplay.label}
                 </span>
+                {isDev && (
+                  <span className="text-[8px] text-emerald-400 ml-1 font-bold tracking-wider uppercase">Dev</span>
+                )}
               </div>
               <button onClick={signOut} className="text-slate-600 hover:text-slate-400 transition-colors flex-shrink-0">
                 <LogOut className="w-3.5 h-3.5" />

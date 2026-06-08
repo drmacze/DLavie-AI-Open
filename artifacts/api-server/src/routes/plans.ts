@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { supabase, PLAN_LIMITS } from "../lib/supabase.js";
+import { supabase, PLAN_LIMITS, isDeveloper } from "../lib/supabase.js";
 import { authMiddleware, requireAuth, type AuthRequest } from "../middlewares/auth.js";
 
 const router = Router();
@@ -37,6 +37,14 @@ export const PLANS = {
     features: ["Unlimited requests", "All models", "Priority processing", "Full VoltAgent", "Custom knowledge", "API access"],
     limits: PLAN_LIMITS.max,
   },
+  developer: {
+    id: "developer",
+    name: "Developer",
+    price_idr: 0,
+    price_usd: 0,
+    features: ["Unlimited requests", "All models unlocked", "Unlimited projects", "Full Agent", "GitHub sync", "Knowledge base", "API access", "Dev badge"],
+    limits: PLAN_LIMITS.developer,
+  },
 };
 
 router.get("/plans", (_req, res) => {
@@ -44,8 +52,13 @@ router.get("/plans", (_req, res) => {
 });
 
 router.get("/me/profile", authMiddleware, requireAuth, async (req: AuthRequest, res) => {
-  const { data: profile } = await supabase.from("profiles").select("*").eq("id", req.userId!).single();
-  if (!profile) return res.status(404).json({ error: "Profile not found" });
+  const { data: rawProfile } = await supabase.from("profiles").select("*").eq("id", req.userId!).single();
+  if (!rawProfile) return res.status(404).json({ error: "Profile not found" });
+
+  const isDev = isDeveloper(rawProfile);
+  const profile = isDev
+    ? { ...rawProfile, plan: "developer", role: "developer", usage_tokens: 999999, usage_requests: 999999 }
+    : rawProfile;
 
   const today = new Date().toISOString().split("T")[0];
   const { count: todayRequests } = await supabase

@@ -6,7 +6,7 @@ import {
   Code2, Sparkles, Activity, Crown, Cpu
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { PLAN_DISPLAY } from "@/lib/supabase";
+import { PLAN_DISPLAY, isDeveloperPlan } from "@/lib/supabase";
 import { useListRecentProjects } from "@workspace/api-client-react";
 import { cn } from "@/lib/utils";
 
@@ -47,11 +47,11 @@ export default function Dashboard() {
           <Link href="/plans">
             <div className={cn(
               "flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer transition-all hover:scale-105",
-              plan === "free" ? "border-white/[0.08] bg-white/[0.03]" : planDisplay.badge
+              isDeveloperPlan(plan) || plan !== "free" ? planDisplay.badge : "border-white/[0.08] bg-white/[0.03]"
             )}>
               <Crown className={cn("w-3.5 h-3.5", planDisplay.color)} />
               <span className={cn("text-[11px] font-semibold", planDisplay.color)}>{planDisplay.label}</span>
-              {plan === "free" && <ArrowRight className="w-3 h-3 text-slate-600" />}
+              {plan === "free" && !isDeveloperPlan(plan) && <ArrowRight className="w-3 h-3 text-slate-600" />}
             </div>
           </Link>
         </div>
@@ -151,7 +151,7 @@ export default function Dashboard() {
             </div>
             <div className="flex items-center justify-between mt-2">
               <span className="text-[10px] text-slate-600">Active · {planDisplay.limit}</span>
-              {plan === "free" && (
+              {plan === "free" && !isDeveloperPlan(plan) && (
                 <Link href="/plans">
                   <span className="text-[10px] text-violet-400 hover:text-violet-300 cursor-pointer">Upgrade →</span>
                 </Link>

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
-import { PLAN_DISPLAY } from "@/lib/supabase";
+import { PLAN_DISPLAY, isDeveloperPlan } from "@/lib/supabase";
 
 const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
 const API = `${BASE}/api`;
@@ -22,7 +22,7 @@ const MODEL_INFO = {
   "gemini-2.5-pro":   { gradient: "from-emerald-600 to-blue-500", glow: "shadow-blue-500/20",   icon: Star, provider: "Google" },
 };
 
-const PLAN_ORDER = { free: 0, lite: 1, plus: 2, max: 3 };
+const PLAN_ORDER = { free: 0, lite: 1, plus: 2, max: 3, developer: 99 };
 
 export default function ModelsPage() {
   const { profile } = useAuth();
@@ -140,7 +140,8 @@ export default function ModelsPage() {
     const Icon = info.icon;
     const userLevel = PLAN_ORDER[plan as keyof typeof PLAN_ORDER] ?? 0;
     const modelLevel = PLAN_ORDER[model.plan as keyof typeof PLAN_ORDER] ?? 0;
-    const locked = userLevel < modelLevel;
+    const isDev = isDeveloperPlan(plan);
+    const locked = !isDev && userLevel < modelLevel;
     const isSelected = selectedModel === model.id;
 
     return (
@@ -161,6 +162,7 @@ export default function ModelsPage() {
             <div className="flex items-center gap-2 flex-wrap">
               <p className="text-sm font-semibold text-white">{model.name}</p>
               {locked && <Lock className="w-3 h-3 text-slate-600" />}
+              {isDev && !locked && <Star className="w-3 h-3 text-emerald-400" />}
               {isSelected && <Check className="w-3 h-3 text-emerald-400" />}
               {!model.available && !locked && (
                 <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/20">No API key</span>
@@ -172,9 +174,12 @@ export default function ModelsPage() {
               <span className="text-[9px] text-slate-700">·</span>
               <span className="text-[9px] text-slate-600">{(model.contextWindow / 1000).toFixed(0)}K ctx</span>
               <span className="text-[9px] text-slate-700">·</span>
-              <span className={cn("text-[9px] font-semibold capitalize", PLAN_DISPLAY[model.plan as keyof typeof PLAN_DISPLAY]?.color ?? "text-slate-500")}>
+              <span className={cn("text-[9px] font-semibold capitalize", PLAN_DISPLAY[model.plan]?.color ?? "text-slate-500")}>
                 {model.plan}+
               </span>
+              {isDev && (
+                <span className="text-[8px] text-emerald-400 font-bold tracking-wider uppercase">Dev</span>
+              )}
             </div>
           </div>
         </div>

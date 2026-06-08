@@ -11,15 +11,18 @@ export const supabase = createClient(supabaseUrl, supabaseServiceKey, {
   auth: { autoRefreshToken: false, persistSession: false },
 });
 
+export const DEVELOPER_EMAIL = "dlaviecom@gmail.com";
+
 export type UserProfile = {
   id: string;
   email: string;
   full_name: string | null;
   avatar_url: string | null;
-  plan: "free" | "lite" | "plus" | "max";
+  plan: "free" | "lite" | "plus" | "max" | "developer";
   usage_tokens: number;
   usage_requests: number;
   created_at: string;
+  role?: "user" | "developer";
 };
 
 export type UsageLog = {
@@ -31,11 +34,19 @@ export type UsageLog = {
   created_at: string;
 };
 
+export const isDeveloper = (profile: UserProfile | null): boolean => {
+  if (!profile) return false;
+  if (profile.role === "developer") return true;
+  if (profile.email === DEVELOPER_EMAIL) return true;
+  return false;
+};
+
 export const PLAN_LIMITS = {
-  free:  { requests_per_day: 20,  tokens_per_day: 50_000,   models: ["local-qwen-1.5b"] },
-  lite:  { requests_per_day: 100, tokens_per_day: 200_000,  models: ["local-qwen-1.5b", "grok-3-mini", "gemini-2.0-flash"] },
-  plus:  { requests_per_day: 500, tokens_per_day: 1_000_000, models: ["local-qwen-1.5b", "grok-3-mini", "grok-3", "gemini-2.0-flash", "gemini-2.5-pro"] },
-  max:   { requests_per_day: -1,  tokens_per_day: -1,        models: ["local-qwen-1.5b", "grok-3-mini", "grok-3", "gemini-2.0-flash", "gemini-2.5-pro", "claude-sonnet-4-5", "deepseek-r2"] },
+  free:       { requests_per_day: 20,  tokens_per_day: 50_000,   models: ["local-qwen-1.5b"] },
+  lite:       { requests_per_day: 100, tokens_per_day: 200_000,  models: ["local-qwen-1.5b", "grok-3-mini", "gemini-2.0-flash"] },
+  plus:       { requests_per_day: 500, tokens_per_day: 1_000_000, models: ["local-qwen-1.5b", "grok-3-mini", "grok-3", "gemini-2.0-flash", "gemini-2.5-pro"] },
+  max:        { requests_per_day: -1,  tokens_per_day: -1,        models: ["local-qwen-1.5b", "grok-3-mini", "grok-3", "gemini-2.0-flash", "gemini-2.5-pro", "claude-sonnet-4-5", "deepseek-r2"] },
+  developer:  { requests_per_day: -1,  tokens_per_day: -1,        models: ["local-qwen-1.5b", "grok-3-mini", "grok-3", "gemini-2.0-flash", "gemini-2.5-pro", "claude-sonnet-4-5", "deepseek-r2"] },
 };
 
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
