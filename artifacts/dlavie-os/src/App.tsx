@@ -11,6 +11,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 
 import LoginPage from "./pages/login";
+import AuthCallback from "./pages/auth-callback";
 import Dashboard from "./pages/dashboard";
 import Projects from "./pages/projects";
 import Editor from "./pages/editor";
@@ -54,6 +55,7 @@ function AppRouter() {
   return (
     <Switch>
       <Route path="/login" component={LoginPage} />
+      <Route path="/auth/callback" component={AuthCallback} />
       <Route path="/editor/:projectId/files/:fileId" component={Editor} />
       <Route path="/editor/:projectId" component={Editor} />
       <Route>

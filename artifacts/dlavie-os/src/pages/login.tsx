@@ -46,17 +46,20 @@ export default function LoginPage() {
     }
   };
 
+  const BASE = (import.meta.env.BASE_URL ?? "/").replace(/\/$/, "");
+  const callbackUrl = `${window.location.origin}${BASE}/auth/callback`;
+
   const handleGithub = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "github",
-      options: { redirectTo: `${window.location.origin}/` },
+      options: { redirectTo: callbackUrl },
     });
   };
 
   const handleGoogle = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: `${window.location.origin}/` },
+      options: { redirectTo: callbackUrl },
     });
   };
 
